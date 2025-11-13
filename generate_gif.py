@@ -49,7 +49,7 @@ def generate_gif(model_path=MODEL_PATH, output_path="stick_walker_demo.gif", max
     frames = []
     camera_x = 0
     step_count = 0
-    frame_skip = 2  # Capture every Nth frame to speed up animation
+    frame_skip = 5  # Capture every Nth frame to speed up animation (higher = faster)
     
     while step_count < max_steps:
         # Get action from model
@@ -142,9 +142,9 @@ def generate_gif(model_path=MODEL_PATH, output_path="stick_walker_demo.gif", max
     pygame.quit()
     
     print(f"Saving GIF with {len(frames)} frames to {output_path}...")
-    # Save as GIF with faster duration (0.01s = 100 FPS equivalent for fast playback)
-    # Since we're skipping frames, this creates a sped-up animation
-    imageio.mimsave(output_path, frames, duration=0.01, loop=0)
+    # Save as GIF with very fast duration (0.003s per frame for fast playback)
+    # With frame skipping, this creates a much faster animation
+    imageio.mimsave(output_path, frames, duration=0.003, loop=0)
     print(f"GIF saved successfully!")
     
     return output_path
