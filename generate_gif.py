@@ -144,7 +144,7 @@ def generate_gif(model_path=MODEL_PATH, output_path="stick_walker_demo.gif", max
     print(f"Saving GIF with {len(frames)} frames to {output_path}...")
     # Save as GIF with very fast duration (0.003s per frame for fast playback)
     # With frame skipping, this creates a much faster animation
-    imageio.mimsave(output_path, frames, duration=0.003, loop=0)
+    imageio.mimsave(output_path, frames, duration=0.0003, loop=0)
     print(f"GIF saved successfully!")
     
     return output_path
