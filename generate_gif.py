@@ -143,12 +143,12 @@ def generate_gif(model_path=MODEL_PATH, output_path="stick_walker_demo.gif", max
     
     print(f"Saving GIF with {len(frames)} frames to {output_path}...")
     # Save as GIF using PIL for better GitHub compatibility
-    # Duration in milliseconds (30ms = fast playback, works better on GitHub)
+    # Duration in milliseconds (100ms = moderate speed, works well on GitHub)
     frames[0].save(
         output_path,
         save_all=True,
         append_images=frames[1:],
-        duration=30,  # Duration in milliseconds per frame
+        duration=100,  # Duration in milliseconds per frame (higher = slower)
         loop=0
     )
     print(f"GIF saved successfully!")
