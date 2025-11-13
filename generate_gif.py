@@ -3,7 +3,7 @@ import numpy as np
 from network import NeuralNetwork
 from env import StickWalkEnv
 from render import Renderer
-import imageio
+from PIL import Image
 
 # Model settings
 MODEL_PATH = "models_ga/model_ga.pkl"
@@ -131,10 +131,10 @@ def generate_gif(model_path=MODEL_PATH, output_path="stick_walker_demo.gif", max
             screen.blit(surface, (10, y_offset))
             y_offset += 25
         
-        # Convert pygame surface to numpy array
-        frame = pygame.surfarray.array3d(screen)
-        frame = np.transpose(frame, (1, 0, 2))  # Transpose to correct orientation
-        frames.append(frame)
+        # Convert pygame surface to PIL Image
+        frame_str = pygame.image.tostring(screen, 'RGB')
+        frame_img = Image.frombytes('RGB', (WINDOW_WIDTH, WINDOW_HEIGHT), frame_str)
+        frames.append(frame_img)
         
         if done:
             break
@@ -142,9 +142,15 @@ def generate_gif(model_path=MODEL_PATH, output_path="stick_walker_demo.gif", max
     pygame.quit()
     
     print(f"Saving GIF with {len(frames)} frames to {output_path}...")
-    # Save as GIF with very fast duration (0.003s per frame for fast playback)
-    # With frame skipping, this creates a much faster animation
-    imageio.mimsave(output_path, frames, duration=0.0003, loop=0)
+    # Save as GIF using PIL for better GitHub compatibility
+    # Duration in milliseconds (30ms = fast playback, works better on GitHub)
+    frames[0].save(
+        output_path,
+        save_all=True,
+        append_images=frames[1:],
+        duration=30,  # Duration in milliseconds per frame
+        loop=0
+    )
     print(f"GIF saved successfully!")
     
     return output_path
